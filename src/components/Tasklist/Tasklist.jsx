@@ -7,18 +7,18 @@ import FailedTask from './FailedTask'
 const Tasklist = ({data}) => {
   return (
     <div id='tasklist' className='flex flex-nowrap overflow-x-auto items-center justify-start h-72 w-full py-5 mt-10 gap-5'>
-       {data.tasks.map((elem)=>{
+       {data.tasks.map((elem,idx)=>{
         if(elem.active){
-          return <AcceptTask/>
+          return <AcceptTask key={idx} data={elem}/>
         }
         if(elem.newTask){
-          return <NewTask/>
+          return <NewTask key={idx} data={elem}/>
         }
         if(elem.completed){
-          return <CompleteTask/>
+          return <CompleteTask key={idx} data={elem}/>
         }
         if(elem.failed){
-          return <FailedTask/>
+          return <FailedTask key={idx} data={elem}/>
         }
        })}
     </div>

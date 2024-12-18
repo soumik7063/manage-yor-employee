@@ -20,9 +20,11 @@ const App = () => {
   }, [Authdata]);
 
   const handleLogin = (email, password) => {
-    if (Authdata?.admin?.[0]?.email === email) {
-      setUser("admin");
-      localStorage.setItem('loggedinUser',JSON.stringify({role:'admin'}))
+    const admin = Authdata.admin.find((e)=> email == e.email && e.password == password);
+    if (Authdata && admin) {
+      setUser('admin');
+      setLoggedinUserData(admin)
+      localStorage.setItem('loggedinUser' ,JSON.stringify({role:'admin' ,data : admin}));
     } else
      {
       if(Authdata ){
@@ -30,7 +32,7 @@ const App = () => {
         if(employee){
           setUser('employee');
           setLoggedinUserData(employee)
-          localStorage.setItem('loggedinUser',JSON.stringify({role:'employee'}))
+          localStorage.setItem('loggedinUser',JSON.stringify({role:'employee' ,data:employee}))
         }
         else {
           alert("Invalid credentials");
@@ -50,7 +52,7 @@ const App = () => {
   return (
     <div>
       {!user && <Login handleLogin={handleLogin} />}
-      {user === "admin" && <AdminDashboard />}
+      {user === "admin" && <AdminDashboard data={LoggedinUserdata}/>}
       {user === "employee" && <EmployeeDashboard data={LoggedinUserdata} />}
     </div>
   );
